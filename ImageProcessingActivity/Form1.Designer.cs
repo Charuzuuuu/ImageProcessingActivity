@@ -37,12 +37,14 @@
             this.basicCopyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.colorInversionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.histogramToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sepiaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.subtractionBasicsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.oNToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.oFFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.sepiaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.subtractionBasicsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -53,7 +55,9 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
-            this.imageProcessingToolStripMenuItem});
+            this.imageProcessingToolStripMenuItem,
+            this.oNToolStripMenuItem,
+            this.oFFToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1142, 28);
@@ -99,30 +103,58 @@
             // grayscaleToolStripMenuItem
             // 
             this.grayscaleToolStripMenuItem.Name = "grayscaleToolStripMenuItem";
-            this.grayscaleToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.grayscaleToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
             this.grayscaleToolStripMenuItem.Text = "Grayscale";
             this.grayscaleToolStripMenuItem.Click += new System.EventHandler(this.grayscaleToolStripMenuItem_Click);
             // 
             // basicCopyToolStripMenuItem
             // 
             this.basicCopyToolStripMenuItem.Name = "basicCopyToolStripMenuItem";
-            this.basicCopyToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.basicCopyToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
             this.basicCopyToolStripMenuItem.Text = "Basic Copy";
             this.basicCopyToolStripMenuItem.Click += new System.EventHandler(this.basicCopyToolStripMenuItem_Click);
             // 
             // colorInversionToolStripMenuItem
             // 
             this.colorInversionToolStripMenuItem.Name = "colorInversionToolStripMenuItem";
-            this.colorInversionToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.colorInversionToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
             this.colorInversionToolStripMenuItem.Text = "Color Inversion";
             this.colorInversionToolStripMenuItem.Click += new System.EventHandler(this.colorInversionToolStripMenuItem_Click);
             // 
             // histogramToolStripMenuItem
             // 
             this.histogramToolStripMenuItem.Name = "histogramToolStripMenuItem";
-            this.histogramToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.histogramToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
             this.histogramToolStripMenuItem.Text = "Histogram";
             this.histogramToolStripMenuItem.Click += new System.EventHandler(this.histogramToolStripMenuItem_Click);
+            // 
+            // sepiaToolStripMenuItem
+            // 
+            this.sepiaToolStripMenuItem.Name = "sepiaToolStripMenuItem";
+            this.sepiaToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
+            this.sepiaToolStripMenuItem.Text = "Sepia";
+            this.sepiaToolStripMenuItem.Click += new System.EventHandler(this.sepiaToolStripMenuItem_Click);
+            // 
+            // subtractionBasicsToolStripMenuItem
+            // 
+            this.subtractionBasicsToolStripMenuItem.Name = "subtractionBasicsToolStripMenuItem";
+            this.subtractionBasicsToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
+            this.subtractionBasicsToolStripMenuItem.Text = "Subtraction";
+            this.subtractionBasicsToolStripMenuItem.Click += new System.EventHandler(this.subtractionBasicsToolStripMenuItem_Click);
+            // 
+            // oNToolStripMenuItem
+            // 
+            this.oNToolStripMenuItem.Name = "oNToolStripMenuItem";
+            this.oNToolStripMenuItem.Size = new System.Drawing.Size(45, 24);
+            this.oNToolStripMenuItem.Text = "ON";
+            this.oNToolStripMenuItem.Click += new System.EventHandler(this.oNToolStripMenuItem_Click);
+            // 
+            // oFFToolStripMenuItem
+            // 
+            this.oFFToolStripMenuItem.Name = "oFFToolStripMenuItem";
+            this.oFFToolStripMenuItem.Size = new System.Drawing.Size(48, 24);
+            this.oFFToolStripMenuItem.Text = "OFF";
+            this.oFFToolStripMenuItem.Click += new System.EventHandler(this.oFFToolStripMenuItem_Click);
             // 
             // openFileDialog1
             // 
@@ -152,20 +184,6 @@
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 2;
             this.pictureBox2.TabStop = false;
-            // 
-            // sepiaToolStripMenuItem
-            // 
-            this.sepiaToolStripMenuItem.Name = "sepiaToolStripMenuItem";
-            this.sepiaToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.sepiaToolStripMenuItem.Text = "Sepia";
-            this.sepiaToolStripMenuItem.Click += new System.EventHandler(this.sepiaToolStripMenuItem_Click);
-            // 
-            // subtractionBasicsToolStripMenuItem
-            // 
-            this.subtractionBasicsToolStripMenuItem.Name = "subtractionBasicsToolStripMenuItem";
-            this.subtractionBasicsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.subtractionBasicsToolStripMenuItem.Text = "Subtraction";
-            this.subtractionBasicsToolStripMenuItem.Click += new System.EventHandler(this.subtractionBasicsToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -204,6 +222,8 @@
         private System.Windows.Forms.ToolStripMenuItem histogramToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sepiaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem subtractionBasicsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem oNToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem oFFToolStripMenuItem;
     }
 }
 

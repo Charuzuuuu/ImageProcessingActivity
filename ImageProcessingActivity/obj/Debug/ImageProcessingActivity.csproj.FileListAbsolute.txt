@@ -9,3 +9,10 @@ C:\Users\Charuzu\OneDrive\Documents\3rd Year\robotics\ImageProcessing\ImageProce
 C:\Users\Charuzu\OneDrive\Documents\3rd Year\robotics\ImageProcessing\ImageProcessingActivity\ImageProcessingActivity\obj\Debug\ImageProcessingActivity.exe
 C:\Users\Charuzu\OneDrive\Documents\3rd Year\robotics\ImageProcessing\ImageProcessingActivity\ImageProcessingActivity\obj\Debug\ImageProcessingActivity.pdb
 C:\Users\Charuzu\OneDrive\Documents\3rd Year\robotics\ImageProcessing\ImageProcessingActivity\ImageProcessingActivity\obj\Debug\ImageProcessingActivity.Form2.resources
+C:\Users\Charuzu\OneDrive\Documents\3rd Year\robotics\ImageProcessing\ImageProcessingActivity\ImageProcessingActivity\bin\Debug\AForge.dll
+C:\Users\Charuzu\OneDrive\Documents\3rd Year\robotics\ImageProcessing\ImageProcessingActivity\ImageProcessingActivity\bin\Debug\AForge.Video.DirectShow.dll
+C:\Users\Charuzu\OneDrive\Documents\3rd Year\robotics\ImageProcessing\ImageProcessingActivity\ImageProcessingActivity\bin\Debug\AForge.Video.dll
+C:\Users\Charuzu\OneDrive\Documents\3rd Year\robotics\ImageProcessing\ImageProcessingActivity\ImageProcessingActivity\bin\Debug\AForge.xml
+C:\Users\Charuzu\OneDrive\Documents\3rd Year\robotics\ImageProcessing\ImageProcessingActivity\ImageProcessingActivity\bin\Debug\AForge.Video.xml
+C:\Users\Charuzu\OneDrive\Documents\3rd Year\robotics\ImageProcessing\ImageProcessingActivity\ImageProcessingActivity\bin\Debug\AForge.Video.DirectShow.xml
+C:\Users\Charuzu\OneDrive\Documents\3rd Year\robotics\ImageProcessing\ImageProcessingActivity\ImageProcessingActivity\obj\Debug\ImagePro.29F8D8D4.Up2Date
