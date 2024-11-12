@@ -2,6 +2,7 @@
 using AForge.Video.DirectShow;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
@@ -11,61 +12,196 @@ namespace ImageProcessingActivity
     public partial class Form1 : Form
     {
         Bitmap loaded, processed;
+        Bitmap b;
+
+        //AForge
         private FilterInfoCollection videoDevices;
         private VideoCaptureDevice videoSource;
+
+        int webcamMode;
+        enum filter
+        {
+            None,
+            Gray,
+            Inversion,
+            Contrast,
+            Brightness,
+            Rotate,
+            MirrorHorizontal,
+            MirrorVertical,
+            Histogram,
+            Scale,
+            Binary,
+            Sepia,
+            Subtract,
+            Smooth,
+            GaussianBlur,
+            Sharpen,
+            MeanRemoval,
+            EmbossLaplascian,
+            EmbossHoriVerti,
+            EmbossAllDirection,
+            EmbossLossy,
+            EmbossHorizontal,
+            EmbossVertical
+        }
+        filter webcamFilter;
 
         public Form1()
         {
             InitializeComponent();
-            LoadVideoDevices();
-        }
+            webcamFilter = filter.None;
+            webcamMode = 0;
 
-        private void LoadVideoDevices()
-        {
+            ToolStripMenuItem[] nonContinuousFilters =
+            {
+                smoothingToolStripMenuItem,
+                sharpenToolStripMenuItem,
+                meanRemovalToolStripMenuItem,
+                embossToolStripMenuItem,
+                laplascianToolStripMenuItem,
+                horizontalVerticalToolStripMenuItem,
+                allToolStripMenuItem,
+                lossyToolStripMenuItem,
+                horizontalToolStripMenuItem,
+                verticalToolStripMenuItem
+            };
+            foreach (ToolStripMenuItem item in nonContinuousFilters)
+            {
+                item.Click += turnOffTimer;
+            }
+
             videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
+            Debug.WriteLine("DEVICES:  ");
+            foreach (FilterInfo device in videoDevices)
+                Debug.WriteLine($"Device [{device.Name}]");
 
             if (videoDevices.Count == 0)
             {
                 MessageBox.Show("No video devices found.");
             }
+            this.FormClosing += new FormClosingEventHandler(Form_Closing);
         }
 
-        private void StartWebcam()
+        // Event listener functions
+        private void stretchPictureBox(object sender, EventArgs e)
         {
-            if (videoDevices.Count > 0)
-            {
-                videoSource = new VideoCaptureDevice(videoDevices[0].MonikerString);
-                videoSource.NewFrame += new NewFrameEventHandler(Video_NewFrame);
-                videoSource.Start();
-                //toolStripStatusLabel1.Text = "Webcam started.";
-            }
-            else
-            {
-                MessageBox.Show("No video devices found.");
-            }
+            pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
         }
-
-        private void StopWebcam()
+        private void turnOffTimer(object sender, EventArgs e)
         {
-            if (videoSource != null && videoSource.IsRunning)
-            {
-                videoSource.SignalToStop();
-                videoSource.WaitForStop();
-                pictureBox1.Image = null;
-                //toolStripStatusLabel1.Text = "Webcam stopped.";
-            }
+            timer1.Enabled = false;
         }
-
         private void Video_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
             Bitmap frame = (Bitmap)eventArgs.Frame.Clone();
-            pictureBox1.Image = frame;
+            pictureBox1.Image = frame; // Display the frame in pictureBox1
+        }
+        private void Form_Closing(object sender, FormClosingEventArgs e)
+        {
+            turnOffCameraMode();
+        }
+        //-----------
+
+
+        //AForge camera
+        private void turnOnAForgeDevice(int deviceId)
+        {
+            turnOffCameraMode();
+            if (videoDevices.Count >= deviceId + 1)
+            {
+                //first device
+                var filterInfo = videoDevices[deviceId];
+                Debug.WriteLine($"Connecting to [{filterInfo.Name}]...");
+                videoSource = new VideoCaptureDevice(filterInfo.MonikerString);
+
+                videoSource.NewFrame += new NewFrameEventHandler(Video_NewFrame);
+                videoSource.Start();
+
+                webcamMode = 2;
+            }
+            else
+            {
+                Debug.WriteLine("No video device found.");
+            }
         }
 
-        private void btnStartWebcam_Click(object sender, EventArgs e)
+        private void turnOffCameraMode()
         {
-            StartWebcam();
+            if (webcamMode == 2)
+            {
+                if (videoSource != null && videoSource.IsRunning)
+                {
+                    videoSource.SignalToStop();
+                    videoSource.WaitForStop();
+                }
+            }
+
+            pictureBox1.Image = null;
+            webcamMode = 0;
         }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            b = getOneFrame();
+            if (b == null)
+                return;
+
+            pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
+            switch (webcamFilter)
+            {
+                case filter.Smooth:
+                    BasicDIP.Smooth(b, ref processed);
+                    break;
+                case filter.GaussianBlur:
+                    BasicDIP.GaussianBlur(b, ref processed);
+                    break;
+                case filter.Sharpen:
+                    BasicDIP.Sharpen(b, ref processed);
+                    break;
+                case filter.MeanRemoval:
+                    BasicDIP.MeanRemoval(b, ref processed);
+                    break;
+                case filter.EmbossLaplascian:
+                    BasicDIP.EmbossLaplascian(b, ref processed);
+                    break;
+                case filter.EmbossHoriVerti:
+                    BasicDIP.EmbossHoriVerti(b, ref processed);
+                    break;
+                case filter.EmbossAllDirection:
+                    BasicDIP.EmbossAllDirections(b, ref processed);
+                    break;
+                case filter.EmbossLossy:
+                    BasicDIP.EmbossLossy(b, ref processed);
+                    break;
+                case filter.EmbossHorizontal:
+                    BasicDIP.EmbossHorizontal(b, ref processed);
+                    break;
+                case filter.EmbossVertical:
+                    BasicDIP.EmbossVertical(b, ref processed);
+                    break;
+                default:
+                    break;
+            }
+            pictureBox2.Image = processed;
+        }
+
+        private Bitmap getOneFrame()
+        {
+            if (webcamMode == 2)
+                return getOneFrameAForge();
+            return null;
+        }
+
+        private Bitmap getOneFrameAForge()
+        {
+            if (pictureBox1.Image == null)
+            {
+                return null;
+            }
+            return new Bitmap(pictureBox1.Image);
+        }
+
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -221,269 +357,131 @@ namespace ImageProcessingActivity
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
-            StartWebcam();
+            turnOnAForgeDevice(0);
             var a = 3;
         }
 
         private void oNToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            StartWebcam();
+            turnOnAForgeDevice(0);
         }
 
         private void oFFToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            StopWebcam();
+            turnOffCameraMode();
         }
 
         private void smoothingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (pictureBox1.Image != null)
-            {
-                Bitmap image = new Bitmap(pictureBox1.Image);
-                bool success = ConvMatrix.Smooth(image);
+            if (webcamMode != 0)
+                loaded = getOneFrame();
+            else if (loaded == null)    //normal picture mode and no image is loaded yet
+                return;
 
-                if (success)
-                {
-                    pictureBox2.Image = image;
-                }
-                else
-                {
-                    MessageBox.Show("Smoothing failed. Please try again.");
-                }
-            }
-            else
-            {
-                MessageBox.Show("No image to smooth. Please start the webcam or load an image.");
-            }
-
+            BasicDIP.Smooth(loaded, ref processed);
+            pictureBox2.Image = processed;
         }
 
         private void gausianBlurToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (pictureBox1.Image != null)
-            {
-                Bitmap image = new Bitmap(pictureBox1.Image);
-                bool success = ConvMatrix.GaussianBlur(image); 
+            if (webcamMode != 0)
+                loaded = getOneFrame();
+            else if (loaded == null)    //normal picture mode and no image is loaded yet
+                return;
 
-                if (success)
-                {
-                    pictureBox2.Image = image; 
-                }
-                else
-                {
-                    MessageBox.Show("Gaussian Blur failed. Please try again.");
-                }
-            }
-            else
-            {
-                MessageBox.Show("No image to gaussian blur. Please start the webcam or load an image.");
-            }
+            BasicDIP.GaussianBlur(loaded, ref processed);
+            pictureBox2.Image = processed;
         }
 
         private void sharpenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (pictureBox1.Image != null)
-            {
-                Bitmap image = new Bitmap(pictureBox1.Image);
-                bool success = ConvMatrix.Sharpen(image); // Call Sharpen and store the result
+            if (webcamMode != 0)
+                loaded = getOneFrame();
+            else if (loaded == null)    //normal picture mode and no image is loaded yet
+                return;
 
-                if (success)
-                {
-                    pictureBox2.Image = image; // If sharpening is successful, display it in pictureBox2
-                }
-                else
-                {
-                    MessageBox.Show("Sharpening failed. Please try again.");
-                }
-            }
-            else
-            {
-                MessageBox.Show("No image to sharpen. Please start the webcam or load an image.");
-            }
+            BasicDIP.Sharpen(loaded, ref processed);
+            pictureBox2.Image = processed;
         }
 
         private void meanRemovalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (pictureBox1.Image != null)
-            {
-                Bitmap image = new Bitmap(pictureBox1.Image);
-                bool success = ConvMatrix.MeanRemoval(image); 
+            if (webcamMode != 0)
+                loaded = getOneFrame();
+            else if (loaded == null)    //normal picture mode and no image is loaded yet
+                return;
 
-                if (success)
-                {
-                    pictureBox2.Image = image;
-                }
-                else
-                {
-                    MessageBox.Show("Mean Removal failed. Please try again.");
-                }
-            }
-            else
-            {
-                MessageBox.Show("No image to remove the mean. Please start the webcam or load an image.");
-            }
+            BasicDIP.MeanRemoval(loaded, ref processed);
+            pictureBox2.Image = processed;
+        }
+        private void allDirectionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (webcamMode != 0)
+                loaded = getOneFrame();
+            else if (loaded == null)    //normal picture mode and no image is loaded yet
+                return;
+
+            BasicDIP.EmbossAllDirections(loaded, ref processed);
+            pictureBox2.Image = processed;
         }
 
-        private void embossToolStripMenuItem_Click(object sender, EventArgs e)
+        private void laplascianToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (pictureBox1.Image != null)
-            {
-                Bitmap image = new Bitmap(pictureBox1.Image);
-                bool success = ConvMatrix.Emboss(image); 
+            if (webcamMode != 0)
+                loaded = getOneFrame();
+            else if (loaded == null)    //normal picture mode and no image is loaded yet
+                return;
 
-                if (success)
-                {
-                    pictureBox2.Image = image; 
-                }
-                else
-                {
-                    MessageBox.Show(" Embossing failed. Please try again.");
-                }
-            }
-            else
-            {
-                MessageBox.Show("No image to emboss. Please start the webcam or load an image.");
-            }
+            BasicDIP.EmbossLaplascian(loaded, ref processed);
+            pictureBox2.Image = processed;
         }
 
-        protected override void OnFormClosing(FormClosingEventArgs e)
+        private void horizontalVerticalToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            StopWebcam();
-            base.OnFormClosing(e);
+            if (webcamMode != 0)
+                loaded = getOneFrame();
+            else if (loaded == null)    //normal picture mode and no image is loaded yet
+                return;
+
+            BasicDIP.EmbossHoriVerti(loaded, ref processed);
+            pictureBox2.Image = processed;
+        }
+
+        private void lossyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (webcamMode != 0)
+                loaded = getOneFrame();
+            else if (loaded == null)    //normal picture mode and no image is loaded yet
+                return;
+
+            BasicDIP.EmbossLossy(loaded, ref processed);
+            pictureBox2.Image = processed;
+        }
+
+        private void horizontalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (webcamMode != 0)
+                loaded = getOneFrame();
+            else if (loaded == null)    //normal picture mode and no image is loaded yet
+                return;
+
+            BasicDIP.EmbossHorizontal(loaded, ref processed);
+            pictureBox2.Image = processed;
+        }
+
+        private void verticalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (webcamMode != 0)
+                loaded = getOneFrame();
+            else if (loaded == null)    //normal picture mode and no image is loaded yet
+                return;
+
+            BasicDIP.EmbossVertical(loaded, ref processed);
+            pictureBox2.Image = processed;
         }
 
 
 
     }
 
-    public class ConvMatrix
-    {
-        public int TopLeft = 0, TopMid = 0, TopRight = 0;
-        public int MidLeft = 0, Pixel = 1, MidRight = 0;
-        public int BottomLeft = 0, BottomMid = 0, BottomRight = 0;
-        public int Factor = 1;
-        public int Offset = 0;
-
-        public void SetAll(int nVal)
-        {
-            TopLeft = TopMid = TopRight = MidLeft = Pixel = MidRight =
-                      BottomLeft = BottomMid = BottomRight = nVal;
-        }
-
-        public static bool Conv3x3(Bitmap b, ConvMatrix m)
-        {
-            if (m.Factor == 0) return false;
-            Bitmap bSrc = (Bitmap)b.Clone();
-            BitmapData bmData = b.LockBits(new Rectangle(0, 0, b.Width, b.Height),
-                            ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
-            BitmapData bmSrc = bSrc.LockBits(new Rectangle(0, 0, bSrc.Width, bSrc.Height),
-                           ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
-            int stride = bmData.Stride;
-            int stride2 = stride * 2;
-
-            IntPtr Scan0 = bmData.Scan0;
-            IntPtr SrcScan0 = bmSrc.Scan0;
-
-            unsafe
-            {
-                byte* p = (byte*)(void*)Scan0;
-                byte* pSrc = (byte*)(void*)SrcScan0;
-                int nOffset = stride - b.Width * 3;
-                int nWidth = b.Width - 2;
-                int nHeight = b.Height - 2;
-
-                int nPixel;
-
-                for (int y = 0; y < nHeight; ++y)
-                {
-                    for (int x = 0; x < nWidth; ++x)
-                    {
-                        nPixel = (((pSrc[2] * m.TopLeft) +
-                            (pSrc[5] * m.TopMid) +
-                            (pSrc[8] * m.TopRight) +
-                            (pSrc[2 + stride] * m.MidLeft) +
-                            (pSrc[5 + stride] * m.Pixel) +
-                            (pSrc[8 + stride] * m.MidRight) +
-                            (pSrc[2 + stride2] * m.BottomLeft) +
-                            (pSrc[5 + stride2] * m.BottomMid) +
-                            (pSrc[8 + stride2] * m.BottomRight))
-                            / m.Factor) + m.Offset;
-
-                        if (nPixel < 0) nPixel = 0;
-                        if (nPixel > 255) nPixel = 255;
-
-                        p[5 + stride] = (byte)nPixel;
-
-                        p += 3;
-                        pSrc += 3;
-                    }
-                    p += nOffset;
-                    pSrc += nOffset;
-                }
-            }
-
-            b.UnlockBits(bmData);
-            bSrc.UnlockBits(bmSrc);
-            return true;
-        }
-
-        public static bool Smooth(Bitmap b, int nWeight = 1)
-        {
-            /*ConvMatrix m = new ConvMatrix();
-            m.SetAll(1);
-            m.Pixel = nWeight;
-            m.Factor = nWeight + 8;
-            return Conv3x3(b, m);*/
-
-            ConvMatrix m = new ConvMatrix();
-            m.SetAll(1);   // Set all cells to 1
-            m.Factor = 9;  // The sum of all cells is 9
-            return Conv3x3(b, m);
-        }
-
-        public static bool GaussianBlur(Bitmap b)
-        {
-            ConvMatrix m = new ConvMatrix();
-            m.TopLeft = m.TopRight = m.BottomLeft = m.BottomRight = 1;
-            m.TopMid = m.MidLeft = m.MidRight = m.BottomMid = 2;
-            m.Pixel = 4;
-            m.Factor = 16;
-            return Conv3x3(b, m);
-        }
-
-        public static bool Sharpen(Bitmap b, int weight = 11)
-        {
-            /*ConvMatrix m = new ConvMatrix();
-            m.SetAll(-2);
-            m.Pixel = weight;
-            m.Factor = weight - 8;
-            return Conv3x3(b, m);*/
-
-            ConvMatrix m = new ConvMatrix();
-            m.SetAll(-1);
-            m.Pixel = 9;
-            m.Factor = 1;
-            return Conv3x3(b, m);
-
-        }
-
-        public static bool MeanRemoval(Bitmap b)
-        {
-            ConvMatrix m = new ConvMatrix();
-            m.SetAll(-1);
-            m.Pixel = 9;
-            m.Factor = 1;
-            return Conv3x3(b, m);
-        }
-
-        public static bool Emboss(Bitmap b)
-        {
-            ConvMatrix m = new ConvMatrix();
-            m.TopLeft = m.TopRight = m.BottomLeft = m.BottomRight = -1;
-            m.Pixel = 4;
-            m.Offset = 127;
-            return Conv3x3(b, m);
-        }
-
-    }
 }
