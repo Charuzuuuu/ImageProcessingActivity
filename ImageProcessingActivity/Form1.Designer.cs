@@ -121,70 +121,70 @@
             // grayscaleToolStripMenuItem
             // 
             this.grayscaleToolStripMenuItem.Name = "grayscaleToolStripMenuItem";
-            this.grayscaleToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.grayscaleToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
             this.grayscaleToolStripMenuItem.Text = "Grayscale";
             this.grayscaleToolStripMenuItem.Click += new System.EventHandler(this.grayscaleToolStripMenuItem_Click);
             // 
             // basicCopyToolStripMenuItem
             // 
             this.basicCopyToolStripMenuItem.Name = "basicCopyToolStripMenuItem";
-            this.basicCopyToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.basicCopyToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
             this.basicCopyToolStripMenuItem.Text = "Basic Copy";
             this.basicCopyToolStripMenuItem.Click += new System.EventHandler(this.basicCopyToolStripMenuItem_Click);
             // 
             // colorInversionToolStripMenuItem
             // 
             this.colorInversionToolStripMenuItem.Name = "colorInversionToolStripMenuItem";
-            this.colorInversionToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.colorInversionToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
             this.colorInversionToolStripMenuItem.Text = "Color Inversion";
             this.colorInversionToolStripMenuItem.Click += new System.EventHandler(this.colorInversionToolStripMenuItem_Click);
             // 
             // histogramToolStripMenuItem
             // 
             this.histogramToolStripMenuItem.Name = "histogramToolStripMenuItem";
-            this.histogramToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.histogramToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
             this.histogramToolStripMenuItem.Text = "Histogram";
             this.histogramToolStripMenuItem.Click += new System.EventHandler(this.histogramToolStripMenuItem_Click);
             // 
             // sepiaToolStripMenuItem
             // 
             this.sepiaToolStripMenuItem.Name = "sepiaToolStripMenuItem";
-            this.sepiaToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.sepiaToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
             this.sepiaToolStripMenuItem.Text = "Sepia";
             this.sepiaToolStripMenuItem.Click += new System.EventHandler(this.sepiaToolStripMenuItem_Click);
             // 
             // subtractionBasicsToolStripMenuItem
             // 
             this.subtractionBasicsToolStripMenuItem.Name = "subtractionBasicsToolStripMenuItem";
-            this.subtractionBasicsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.subtractionBasicsToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
             this.subtractionBasicsToolStripMenuItem.Text = "Subtraction";
             this.subtractionBasicsToolStripMenuItem.Click += new System.EventHandler(this.subtractionBasicsToolStripMenuItem_Click);
             // 
             // smoothingToolStripMenuItem
             // 
             this.smoothingToolStripMenuItem.Name = "smoothingToolStripMenuItem";
-            this.smoothingToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.smoothingToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
             this.smoothingToolStripMenuItem.Text = "Smoothing";
             this.smoothingToolStripMenuItem.Click += new System.EventHandler(this.smoothingToolStripMenuItem_Click);
             // 
             // gausianBlurToolStripMenuItem
             // 
             this.gausianBlurToolStripMenuItem.Name = "gausianBlurToolStripMenuItem";
-            this.gausianBlurToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.gausianBlurToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
             this.gausianBlurToolStripMenuItem.Text = "GaussianBlur";
             this.gausianBlurToolStripMenuItem.Click += new System.EventHandler(this.gausianBlurToolStripMenuItem_Click);
             // 
             // sharpenToolStripMenuItem
             // 
             this.sharpenToolStripMenuItem.Name = "sharpenToolStripMenuItem";
-            this.sharpenToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.sharpenToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
             this.sharpenToolStripMenuItem.Text = "Sharpen";
             this.sharpenToolStripMenuItem.Click += new System.EventHandler(this.sharpenToolStripMenuItem_Click);
             // 
             // meanRemovalToolStripMenuItem
             // 
             this.meanRemovalToolStripMenuItem.Name = "meanRemovalToolStripMenuItem";
-            this.meanRemovalToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.meanRemovalToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
             this.meanRemovalToolStripMenuItem.Text = "MeanRemoval";
             this.meanRemovalToolStripMenuItem.Click += new System.EventHandler(this.meanRemovalToolStripMenuItem_Click);
             // 
@@ -198,48 +198,48 @@
             this.horizontalToolStripMenuItem,
             this.verticalToolStripMenuItem});
             this.embossToolStripMenuItem.Name = "embossToolStripMenuItem";
-            this.embossToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.embossToolStripMenuItem.Size = new System.Drawing.Size(191, 26);
             this.embossToolStripMenuItem.Text = "Emboss";
             // 
             // laplascianToolStripMenuItem
             // 
             this.laplascianToolStripMenuItem.Name = "laplascianToolStripMenuItem";
-            this.laplascianToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.laplascianToolStripMenuItem.Size = new System.Drawing.Size(217, 26);
             this.laplascianToolStripMenuItem.Text = "Laplascian";
             this.laplascianToolStripMenuItem.Click += new System.EventHandler(this.laplascianToolStripMenuItem_Click);
             // 
             // horizontalVerticalToolStripMenuItem
             // 
             this.horizontalVerticalToolStripMenuItem.Name = "horizontalVerticalToolStripMenuItem";
-            this.horizontalVerticalToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.horizontalVerticalToolStripMenuItem.Size = new System.Drawing.Size(217, 26);
             this.horizontalVerticalToolStripMenuItem.Text = "Horizontal-Vertical";
             this.horizontalVerticalToolStripMenuItem.Click += new System.EventHandler(this.horizontalVerticalToolStripMenuItem_Click);
             // 
             // allToolStripMenuItem
             // 
             this.allToolStripMenuItem.Name = "allToolStripMenuItem";
-            this.allToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.allToolStripMenuItem.Size = new System.Drawing.Size(217, 26);
             this.allToolStripMenuItem.Text = "All Directions";
             this.allToolStripMenuItem.Click += new System.EventHandler(this.allDirectionToolStripMenuItem_Click);
             // 
             // lossyToolStripMenuItem
             // 
             this.lossyToolStripMenuItem.Name = "lossyToolStripMenuItem";
-            this.lossyToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.lossyToolStripMenuItem.Size = new System.Drawing.Size(217, 26);
             this.lossyToolStripMenuItem.Text = "Lossy";
             this.lossyToolStripMenuItem.Click += new System.EventHandler(this.lossyToolStripMenuItem_Click);
             // 
             // horizontalToolStripMenuItem
             // 
             this.horizontalToolStripMenuItem.Name = "horizontalToolStripMenuItem";
-            this.horizontalToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.horizontalToolStripMenuItem.Size = new System.Drawing.Size(217, 26);
             this.horizontalToolStripMenuItem.Text = "Horizontal";
             this.horizontalToolStripMenuItem.Click += new System.EventHandler(this.horizontalToolStripMenuItem_Click);
             // 
             // verticalToolStripMenuItem
             // 
             this.verticalToolStripMenuItem.Name = "verticalToolStripMenuItem";
-            this.verticalToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.verticalToolStripMenuItem.Size = new System.Drawing.Size(217, 26);
             this.verticalToolStripMenuItem.Text = "Vertical";
             this.verticalToolStripMenuItem.Click += new System.EventHandler(this.verticalToolStripMenuItem_Click);
             // 

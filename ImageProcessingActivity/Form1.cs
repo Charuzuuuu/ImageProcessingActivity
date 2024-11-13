@@ -354,12 +354,12 @@ namespace ImageProcessingActivity
             pictureBox1.Image = loaded;
         }
 
-        protected override void OnShown(EventArgs e)
-        {
-            base.OnShown(e);
-            turnOnAForgeDevice(0);
-            var a = 3;
-        }
+        //protected override void OnShown(EventArgs e)
+        //{
+        //    base.OnShown(e);
+        //    turnOnAForgeDevice(0);
+        //    var a = 3;
+        //}
 
         private void oNToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -467,6 +467,11 @@ namespace ImageProcessingActivity
 
             BasicDIP.EmbossHorizontal(loaded, ref processed);
             pictureBox2.Image = processed;
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            turnOffCameraMode();
         }
 
         private void verticalToolStripMenuItem_Click(object sender, EventArgs e)
